@@ -37,6 +37,7 @@ export function Repository() {
   const repository = findRepositoryById(repositoryId);
 
   function handleIssueNavigation(issueUrl: string) {
+    Linking.openURL(issueUrl);
     // TODO - use Linking to open issueUrl in a browser
   }
 
@@ -44,40 +45,56 @@ export function Repository() {
     <Background>
       <Container>
         <RepoInfo>
-          {/* <OwnerAvatar source={{ uri:  }} /> */}
+          {
+           <OwnerAvatar source={{ uri: repository.owner.avatar_url }} />
+           
+           }
 
           <TextGroup>
             <TitleAnimation>
               {
+                  repository.full_name
                 // TODO - full name of the repository
               }
             </TitleAnimation>
 
-            <Description numberOfLines={2}>{
+            <Description numberOfLines={2}>
+              {
+                repository.description
               //TODO - repository description
-            }</Description>
+              }
+            </Description>
           </TextGroup>
         </RepoInfo>
 
         <RepoStats>
           <Stars>
-            <StarsCounter>{
-              // TODO - repository stargazers count
-            }</StarsCounter>
+            <StarsCounter>
+              {
+                repository.stargazers_count
+            // TODO - repository stargazers count
+              }
+            </StarsCounter>
             <StarsText>Stars</StarsText>
           </Stars>
 
           <Forks>
-            <ForksCounter>{
+            <ForksCounter>
+              {
+              repository.forks_count
               // TODO - repository forks count
-            }</ForksCounter>
+             }
+            </ForksCounter>
             <ForksText>Forks</ForksText>
           </Forks>
 
           <OpenIssues>
-            <OpenIssuesCounter>{
+            <OpenIssuesCounter>
+              {
+                repository.open_issues_count
               // TODO - repository issues count
-            }</OpenIssuesCounter>
+              }
+            </OpenIssuesCounter>
             <OpenIssuesText>Issues{'\n'}Abertas</OpenIssuesText>
           </OpenIssues>
         </RepoStats>
@@ -93,6 +110,7 @@ export function Repository() {
                 title: issue.title,
                 subTitle: issue.user.login,
               }}
+              onPress={() => handleIssueNavigation(issue.html_url)}
             // TODO - onPress prop calling 
             />
           )}
