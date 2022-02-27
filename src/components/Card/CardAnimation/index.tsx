@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react';
-import { useWindowDimensions, ViewProps } from 'react-native';
+import React, { useEffect } from "react";
+import { useWindowDimensions, ViewProps } from "react-native";
 import {
-  Extrapolate,
-  interpolate,
   useAnimatedStyle,
   useSharedValue,
-  withTiming
-} from 'react-native-reanimated';
+  withTiming,
+} from "react-native-reanimated";
 
-import { AnimationContainer } from './styles';
+import { AnimationContainer } from "./styles";
 
 interface CardAnimationProps extends ViewProps {
   children: React.ReactNode;
@@ -21,30 +19,23 @@ export function CardAnimation({ children, ...rest }: CardAnimationProps) {
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      opacity: interpolate(cardOpacity.value, [0, 50], [0,1]),
-      transform: [
-        {
-          translateX: interpolate(
-            cardOffset.value,
-            [0,50],
-            [0,50],
-            Extrapolate.CLAMP
-            )
-        }
-      ]
-      
-      // TODO - setup animated style
-    }
-  })
+      opacity: cardOpacity.value,
+      transform: [{ translateX: cardOffset.value }],
+    };
+  });
 
   useEffect(() => {
-    cardOpacity.value = withTiming(50, { duration: 1000 });
-    cardOffset.value = withTiming(0, { duration: 500 });
+    cardOpacity.value = withTiming(1, {
+      duration: 1000,
+    });
+    cardOffset.value = withTiming(0, {
+      duration: 1000,
+    });
   }, []);
 
   return (
     <AnimationContainer {...rest} style={animatedStyle}>
       {children}
     </AnimationContainer>
-  )
+  );
 }
